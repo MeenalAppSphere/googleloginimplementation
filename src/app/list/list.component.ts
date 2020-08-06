@@ -4,6 +4,8 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import * as firebase from "firebase/app";
+import {LoginService} from '../login/login.service';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-list',
@@ -13,7 +15,7 @@ import * as firebase from "firebase/app";
 export class ListComponent implements OnInit {
   name:string;
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private loginService:LoginService) { }
 
   ngOnInit() {
     var user = firebase.auth().currentUser;
@@ -24,15 +26,13 @@ if (user != null) {
   email = user.email;
   photoUrl = user.photoURL;
   emailVerified = user.emailVerified;
-  uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-                   // this value to authenticate with your backend server, if
-                   // you have one. Use User.getToken() instead.
+  uid = user.uid;
 }
   }
 
   logout()
   {
-      this.router.navigate([''])
+      this.loginService.logout();
   }
 
 }
